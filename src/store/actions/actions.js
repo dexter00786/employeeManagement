@@ -6,8 +6,8 @@ export const addEmployeeAction = data => {
   };
 };
 
-export const modifyFavouriteAction = (data) => {
+export const modifyFavouriteAction = (data, index) => {
   return dispatch => {
-    dispatch({type: MODIFY_FAVOURITE, payload: data});
+    dispatch({type: MODIFY_FAVOURITE, payload: data, index: index});
   };
 };

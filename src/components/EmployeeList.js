@@ -19,7 +19,7 @@ import {
   modifyFavouriteAction,
 } from '../store/actions/actions';
 import {strings} from '../constants/strings';
-import {sortByName} from '../utils/validation';
+import {sortByLastName, sortByName} from '../utils/validation';
 import {StackActions, useNavigation} from '@react-navigation/native';
 
 const EmployeeList = () => {
@@ -45,7 +45,7 @@ const EmployeeList = () => {
     const newArr = employeesList.slice();
     newArr[index] = obj;
     setEmployeeList(newArr);
-    dispatch(modifyFavouriteAction(newArr));
+    dispatch(modifyFavouriteAction(obj, index));
   };
   const Header = () => (
     <View style={styles.header}>
@@ -75,7 +75,8 @@ const EmployeeList = () => {
         <View style={styles.flexSide}>
           <View style={styles.avatar}>
             <Text style={styles.initials}>
-              {item.firstName[0]} {item.lastName[0]}
+              {item.firstName[0].toUpperCase()}
+              {item.lastName[0].toUpperCase()}
             </Text>
           </View>
         </View>
@@ -112,6 +113,14 @@ const EmployeeList = () => {
       <SafeAreaView></SafeAreaView>
       <View style={styles.modalWrapper}>
         <View style={styles.filterContainer}>
+          <View style={{marginBottom: 15, alignItems: 'flex-end'}}>
+            <TouchableOpacity onPress={() => setOpenFilter(false)}>
+              <Image
+                source={require('../../assets/images/cancel.png')}
+                style={styles.headerImages}
+              />
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity
             style={[styles.filterBtn, {marginBottom: 20}]}
             onPress={() => {
@@ -121,7 +130,13 @@ const EmployeeList = () => {
             }}>
             <Text>{strings.SORT_FIRST_NAME}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.filterBtn}>
+          <TouchableOpacity
+            style={styles.filterBtn}
+            onPress={() => {
+              const res = sortByLastName(employeesList);
+              setEmployeeList(res);
+              setOpenFilter(false);
+            }}>
             <Text>{strings.SORT_LAST_NAME}</Text>
           </TouchableOpacity>
         </View>

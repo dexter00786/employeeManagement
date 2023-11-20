@@ -8,16 +8,19 @@ export const addemployeeReducer = (state = initialState, action) => {
     case ADD_EMPLOYEE_DATA:
       return {...state, employees: [...state.employees, action.payload]};
 
+    case MODIFY_FAVOURITE: {
+      const index = action.index;
+      const {isFavourite} = action.payload;
+      const newArr = [...state.employees];
+      newArr[index].isFavourite = isFavourite;
+      return {
+        ...state,
+        employees: newArr,
+      };
+    }
+
     default:
       return state;
   }
 };
 
-export const modifyFavouriteReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case MODIFY_FAVOURITE:
-      return action.payload;
-    default:
-      return state;
-  }
-};

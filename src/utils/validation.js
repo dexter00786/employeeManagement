@@ -55,3 +55,18 @@ export const sortByName = employees => {
   });
   return employees;
 };
+
+
+export const sortByLastName = employees => {
+  employees.sort(function (a, b) {
+    console.log(a.lastName, b.lastName);
+    if (a.lastName < b.lastName) {
+      return -1;
+    }
+    if (a.lastName > b.lastName) {
+      return 1;
+    }
+    return 0;
+  });
+  return employees;
+};
