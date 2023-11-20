@@ -89,4 +89,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  drawerCard: {
+    padding: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: colors.secondaryGrey,
+    marginBottom: 20,
+  },
 });

@@ -9,9 +9,14 @@ export const addemployeeReducer = (state = initialState, action) => {
       return {...state, employees: [...state.employees, action.payload]};
 
     case MODIFY_FAVOURITE: {
-      const index = action.index;
+      const {firstName, lastName} = action.payload;
       const {isFavourite} = action.payload;
       const newArr = [...state.employees];
+      const index = newArr.findIndex(employee => {
+        return (
+          employee.firstName === firstName && employee.lastName === lastName
+        );
+      });
       newArr[index].isFavourite = isFavourite;
       return {
         ...state,

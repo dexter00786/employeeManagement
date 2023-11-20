@@ -20,7 +20,11 @@ import {
 } from '../store/actions/actions';
 import {strings} from '../constants/strings';
 import {sortByLastName, sortByName} from '../utils/validation';
-import {StackActions, useNavigation} from '@react-navigation/native';
+import {
+  DrawerActions,
+  StackActions,
+  useNavigation,
+} from '@react-navigation/native';
 
 const EmployeeList = () => {
   const [employeesList, setEmployeeList] = useState();
@@ -50,10 +54,13 @@ const EmployeeList = () => {
   const Header = () => (
     <View style={styles.header}>
       <View style={styles.flexSide}>
-        <Image
-          source={require('../../assets/images/menu.png')}
-          style={styles.headerImages}
-        />
+        <TouchableOpacity
+          onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
+          <Image
+            source={require('../../assets/images/menu.png')}
+            style={styles.headerImages}
+          />
+        </TouchableOpacity>
       </View>
       <View style={styles.flexMiddle}>
         <Text style={styles.headerInbox}>{strings.INBOX}</Text>
@@ -143,18 +150,21 @@ const EmployeeList = () => {
       </View>
     </Modal>
   );
-  console.log(employees, '###employees');
   return (
     <>
       <CustomStatusBar backgroundColor={colors.grey} barStyle="dark-content" />
       <View style={[styles.root, {padding: 0, backgroundColor: '#F1F2F4'}]}>
         <Header />
         <ScrollView style={{padding: 15, borderWidth: 1}}>
-          <FlatList
-            data={employeesList}
-            renderItem={Card}
-            keyExtractor={item => item.name + item.salary}
-          />
+          {!!employeesList ? (
+            <FlatList
+              data={employeesList}
+              renderItem={Card}
+              keyExtractor={item => item.name + item.salary}
+            />
+          ) : (
+            <Text>No Data Available</Text>
+          )}
         </ScrollView>
       </View>
       {openFilter && <FilterModal />}
